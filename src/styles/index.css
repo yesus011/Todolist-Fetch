@@ -1,12 +1,95 @@
+body {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+}
+.title {
+    font-size: 100px;
+    font-weight: 20;
+    color: rgba(239, 138, 138, 0.501);
+    display: flex;
+    justify-content: center;
+}
+.task {
 
-/* 
+    position: relative;
+    height: 60px;
+    width: 600px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(187, 187, 187);
+    border-top: none;
+    border-bottom: 1px solid rgb(240, 240, 240);
+    z-index: 3;
+    box-shadow: 0 4px 17px 0px rgba(159, 158, 158, 0.2);
+    color: rgb(141, 140, 140);
+    font-weight: 50;
+}
+input:focus {
+    border: none;
+    outline: none;
+    color: rgb(141, 140, 140);
+    font-weight: 50;
+}
+input {
+    color: rgb(141, 140, 140);
+    font-weight: 50;
+}
+.task span {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding-right: 15px;
+    opacity: 0;
+}
+.task > span:hover {
+    cursor: pointer;
+    opacity: 1;
+}
+.task > p {
+    margin-left: 77px;
+    margin-bottom: 0;
+}
+.task > button {
+    margin-right: 10px;
+}
+input::placeholder {
+    color: rgb(188, 188, 188)
+    
+}
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+#editInput {
+    position: absolute;
+    z-index: 3;
+    height: 100%;
+    width: 100%;
+}
 
-*/
+.footer  { 
+    position: absolute;
+    height: 50px;
+    width: 600px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(187, 187, 187);
+    border-top: none;
+    z-index: 3;
+    box-shadow: 0 4px 17px 0px rgba(159, 158, 158, 0.2);
+    color: rgb(198, 197, 197);
+    font-size: 14px;
+}
+.footer-2-size {
+    height: 55px;
+    width: 595px;
+    z-index: 2;
+    
+}
+.footer-3-size {
+    height: 60px;
+    width: 590px;
+    z-index: 1;
+}
+.footer-box {
+    height: 70px;
+}
