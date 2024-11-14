@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-
 const baseURL = "https://playground.4geeks.com/todo";
 const initialTask = {
     label: "",
     is_done: false
 };
-
 const Home = () => {
     const [task, setTask] = useState(initialTask);
     const [taskList, setTaskList] = useState([]);
-    const [user, setUser] = useState("Jesus Bolivar");
-
+    const [user, setUser] = useState("JesusBolivar");
     const handleSubmit = async (event) => {
         try {
             if (event.key === "Enter" && task.label.trim() !== "") {
@@ -21,75 +18,77 @@ const Home = () => {
                     },
                     body: JSON.stringify(task)
                 });
-                setTask({ ...task, label: "" });
-                getAllTasks();
+                if (response.ok) {
+                    getAllTasks();
+                    setTask(initialTask);
+                }
             }
         } catch (error) {
             console.log(error);
         }
     };
-
     const handleChange = (event) => {
         setTask({
             ...task,
             label: event.target.value
         });
     };
-
     const getAllTasks = async () => {
         try {
             let response = await fetch(`${baseURL}/users/${user}`);
-            let data;
-
             if (response.ok) {
-                data = await response.json();
+                let data = await response.json()
+                setTaskList(data.todos)
             } else {
-                let newUser = "Jesus Bolivar";
-                setUser(newUser);
-                await fetch(`${baseURL}/users/${newUser}`, {
-                    method: "POST"
-                });
-                let responseNew = await fetch(`${baseURL}/users/${newUser}`);
-                data = await responseNew.json();
+                createUser()
             }
-
-            setTaskList(data.todos);
-
         } catch (error) {
             console.log(error);
         }
     };
-
+    const createUser = async () => {
+        try {
+            let response = await fetch(`${baseURL}/users/${user}`, {
+                method: "POST"
+            });
+            if (response.ok) {
+                getAllTasks()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const handleDelete = async (id) => {
         try {
-            await fetch(`${baseURL}/todos/${id}`, {
+            let response = await fetch(`${baseURL}/todos/${id}`, {
                 method: "DELETE"
             });
-            getAllTasks();
+            if (response.ok) {
+                getAllTasks();
+            }
         } catch (error) {
             console.log(error);
         }
     };
-
     const clearAll = async () => {
         try {
-            await fetch(`${baseURL}/todos/${user}`, {
+            let response = await fetch(`${baseURL}/users/${user}`, {
                 method: "DELETE"
-            });
-            setTaskList([]);
+            })
+            if (response.ok) {
+                getAllTasks()
+            }
         } catch (error) {
-            console.log(error);
         }
     };
-
-    useEffect(() => { getAllTasks(); }, []);
-
+    useEffect(() => {
+        getAllTasks();
+    }, []);
     return (
         <>
             <h1 className="title">Task List</h1>
-
-            <form className="task d-flex justify-content-center">
-                <input 
+            <form className="task d-flex justify-content-center" onSubmit={(event) => event.preventDefault()}>
+                <input
                     className="w-75 h-100 border border-0 fs-3"
                     onKeyDown={handleSubmit}
                     onChange={handleChange}
@@ -97,7 +96,6 @@ const Home = () => {
                     placeholder="Enter new task"
                 />
             </form>
-
             {taskList.map((item) => (
                 <div className="task d-flex align-items-center justify-content-between" key={item.id}>
                     <p className="fs-3">{item.label}</p>
@@ -111,7 +109,6 @@ const Home = () => {
                     </span>
                 </div>
             ))}
-
             <div className="d-flex justify-content-center footer-box">
                 <div className="footer"></div>
                 <div className="footer footer-2-size"></div>
@@ -123,5 +120,4 @@ const Home = () => {
         </>
     );
 };
-
 export default Home;
